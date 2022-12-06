@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    [SerializeField] private bool _isOpened;
     [SerializeField] private bool _isHaveImage;
     [SerializeField] private Sprite _cover;
     [SerializeField] private Sprite _image;
-    [SerializeField] private Vector2 _position;
+    [SerializeField] private Sprite _notImage;
 
+    public bool IsHaveImage => _image != null;
     public Sprite Image { get { return _image; } set { _image = value; } }
-
+    
     public void ChangeSprite(Sprite sprite)
     {
         GetComponent<SpriteRenderer>().sprite = sprite;
@@ -22,14 +22,21 @@ public class Card : MonoBehaviour
         if (_image)
             ChangeSprite(_image);
         else
-            Debug.LogError("Нет изображения");
+            ChangeSprite(_notImage);
     }
 
     public void Close()
     {
-        if (_image)
-            ChangeSprite(_cover);
-        else
-            Debug.LogError("Нет обложки");
+        ChangeSprite(_cover);
+    }
+
+    private void OnMouseDown()
+    {
+        var clickable = GameManager.Instance.IsClickableButtons;
+        if (!clickable)
+            return;
+
+        var madeMistake = !IsHaveImage;
+        GameManager.Instance.ContinueGame(madeMistake);
     }
 }

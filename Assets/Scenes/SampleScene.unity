@@ -304,18 +304,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f371934c0330640bcf2769a675ea07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardPrefab: {fileID: 6880584764813525086, guid: 85c5478f62f2fae44b824a9609fd8899, type: 3}
+  _cards: []
   _positions:
   - {fileID: 962896679}
   - {fileID: 1053915435}
   - {fileID: 1861611782}
   - {fileID: 989078149}
-  _cards: []
   _images:
   - {fileID: 3286163911610860551, guid: 59cb8ac6a098d0243b4a14d56960e3cc, type: 3}
   - {fileID: 3286163911610860551, guid: 57af08f50d84d1d40a74861b096bc453, type: 3}
-  - {fileID: 3286163911610860551, guid: ad9fbc8278759cf42a37450ce57c32c5, type: 3}
-  _cardPrefab: {fileID: 6880584764813525086, guid: 85c5478f62f2fae44b824a9609fd8899, type: 3}
-  spr: {fileID: 3286163911610860551, guid: ad9fbc8278759cf42a37450ce57c32c5, type: 3}
+  _pauseBeforeShowImage: 1
+  _pauseShowImage: 2
+  OnTrueAnswer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1992867973}
+        m_TargetAssemblyTypeName: BackgroundController, Assembly-CSharp
+        m_MethodName: SetGreenBlink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnFalseAnswer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1992867973}
+        m_TargetAssemblyTypeName: BackgroundController, Assembly-CSharp
+        m_MethodName: SetRedBlink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &863789330
 Transform:
   m_ObjectHideFlags: 0
@@ -658,7 +688,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!1 &1861611781
 GameObject:
@@ -736,6 +766,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861611781}
   m_CullTransparentMesh: 1
+--- !u!1 &1992867972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1992867974}
+  - component: {fileID: 1992867973}
+  - component: {fileID: 1992867975}
+  m_Layer: 0
+  m_Name: Controllers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1992867973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992867972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca848642d3609248b6b91f44e1736cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _background: {fileID: 2114926508}
+  _blinkTime: 0.5
+--- !u!4 &1992867974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992867972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.96817636, y: 0.8588661, z: 82.040565}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1992867975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992867972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf96f87c6623754e80f9ea14ae27473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2114926505
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,7 +838,7 @@ GameObject:
   - component: {fileID: 2114926508}
   - component: {fileID: 2114926507}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -816,7 +905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.6888572, g: 0.7796572, b: 0.9433962, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

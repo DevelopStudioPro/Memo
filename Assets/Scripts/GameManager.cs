@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,16 +17,30 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
     }
-
-    [SerializeField] private List<Transform> _positions;
-    [SerializeField] private List<Card> _cards;
-    [SerializeField] private List<Sprite> _images;
     [SerializeField] private GameObject _cardPrefab;
-    [SerializeField] private Sprite spr;
+
+    [SerializeField] private List<Card> _cards;
+    [SerializeField] private List<Transform> _positions;
+    [SerializeField] private List<Sprite> _images;
+
+    [SerializeField] private float _pauseBeforeShowImage;
+    [SerializeField] private float _pauseShowImage;
+
+    [SerializeField] private UnityEvent OnTrueAnswer;
+    [SerializeField] private UnityEvent OnFalseAnswer;
+
+    private bool _isClickable;
+
+    public bool IsClickableButtons => _isClickable;
 
     private void Start()
     {
         CreateCards();
+        StartGame();
+    }
+
+    private void StartGame()
+    {
         SetRandomImage();
         StartCoroutine(OpenImage());
     }
@@ -54,22 +69,28 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator OpenImage()
     {
-        Card currentCard = null;
+        _isClickable = false;
+
+        yield return new WaitForSeconds(_pauseBeforeShowImage);
+
         foreach (var card in _cards)
-        {
-            if (card.GetComponent<Card>().Image != null)
-            {
-                card.Open();
-                currentCard = card;
-            }   
-        }
+            card.Open();
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(_pauseShowImage);
 
-        if (currentCard != null)
-            currentCard.Close();
+        foreach (var card in _cards)
+            card.Close();
+
+        _isClickable = true;
+    }
+
+    public void ContinueGame(bool madeMistake)
+    {
+        if (madeMistake)
+            OnFalseAnswer.Invoke();
         else
-            Debug.Log("Изображения нет ни в одной карте");
+            OnTrueAnswer.Invoke();
 
+        StartGame();
     }
 }
