@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
         }
     }
     [SerializeField] private GameObject _cardPrefab;
+    [SerializeField] private Transform _shufflePosition;
+    [SerializeField] private ShuffleController _shuffleController;
 
     [SerializeField] private List<Card> _cards;
     [SerializeField] private List<Transform> _positions;
@@ -30,8 +32,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UnityEvent OnFalseAnswer;
 
     private bool _isClickable;
+    private Card _currentCard;
+    
 
     public bool IsClickableButtons => _isClickable;
+    public Transform ShufflePosition => _shufflePosition;
+    public List<Card> CardsList => _cards;
+    public ShuffleController ShuffleController => _shuffleController;
 
     private void Start()
     {
@@ -64,7 +71,8 @@ public class GameManager : MonoBehaviour
         }
 
         var randomImage = _images[Random.Range(0, _images.Count)];
-        _cards[Random.Range(0, _cards.Count)].GetComponent<Card>().Image = randomImage;
+        _currentCard = _cards[Random.Range(0, _cards.Count)];
+        _currentCard.GetComponent<Card>().Image = randomImage;
     }
 
     private IEnumerator OpenImage()
@@ -84,13 +92,27 @@ public class GameManager : MonoBehaviour
         _isClickable = true;
     }
 
-    public void ContinueGame(bool madeMistake)
+    public void ContinueGame(bool madeMistake, Card card)
     {
         if (madeMistake)
+        {
             OnFalseAnswer.Invoke();
+            card.SetRedBlink();
+        }
         else
+        {
             OnTrueAnswer.Invoke();
+            card.SetGreenBlink();
+        }
 
+        StartCoroutine(ContinueWithPause());
+    }
+
+    private IEnumerator ContinueWithPause()
+    {
+        yield return new WaitForSeconds(1);
+
+        _shuffleController.Shuffle();
         StartGame();
     }
 }
