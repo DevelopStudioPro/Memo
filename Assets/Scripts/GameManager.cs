@@ -110,7 +110,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ContinueWithPause()
     {
+        foreach (var card in _cards)
+            card.Open();
+
         yield return new WaitForSeconds(1);
+
+        foreach (var card in _cards)
+            card.Close();
 
         _shuffleController.Shuffle();
         StartGame();
